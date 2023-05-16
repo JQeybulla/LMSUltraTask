@@ -1,4 +1,5 @@
 package web;
+import domain.ArchiveInfo;
 import domain.ExamInfo;
 import domain.UsersInfo;
 import com.google.gson.Gson;
@@ -58,12 +59,12 @@ public class ArchiveServlet extends HttpServlet {
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
         UserService userService = new UserServiceImpl();
         String ACTION = "action";
-
+        PrintWriter out = response.getWriter();
         Connection conn = df.connectDB();
         CallableStatement call = null;
         ResultSet rs = null;
 
-        String sql = "{ ? = call MYPROJECT.GET_ALL_EXAMS() }";
+        String sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS() }";
 
         try {
             if (conn != null){
@@ -77,48 +78,28 @@ public class ArchiveServlet extends HttpServlet {
 
                 rs = (ResultSet) call.getObject(1);
 
-                List<ExamInfo> exams = new ArrayList<>();
-
+                List<ArchiveInfo> archives = new ArrayList<>();
                 while (rs.next()) {
-                    int id = rs.getInt("ID");
-                    int subjectId = rs.getInt("SUBJECT_ID");
-                    Date examDate = rs.getDate("EXAM_DATE");
-                    int score = rs.getInt("SCORE");
-                    int duration = rs.getInt("DURATION");
+                    String supervisorName = rs.getString(1);
+                    String examDate = rs.getString(2);
+                    String subject = rs.getString(3);
+                    int score = rs.getInt(4);
 
+                    ArchiveInfo archiveInfo = new ArchiveInfo();
 
+                    archiveInfo.setSupervisorName(supervisorName);
+                    archiveInfo.setExamDate(examDate);
+                    archiveInfo.setSubjectName(subject);
+                    archiveInfo.setScore(score);
 
-                    ExamInfo examInfo = new ExamInfo();
-                    examInfo.setId(id);
-                    examInfo.setSubject_id(subjectId);
-                    examInfo.setExam_date(String.valueOf(examDate));
-                    examInfo.setScore(score);
-                    examInfo.setDuration(duration);
-
-                    Date examDateinDateFormat = format2.parse(examInfo.getExam_date());
-                    Date currentDate = new Date();
-
-                    if (examDateinDateFormat.before(currentDate)){
-                        exams.add(examInfo);
-                    }
-
-                    // Do something with the fetched data
-                    System.out.println("ID: " + id + ", SUBJECT_ID: " + subjectId +
-                            ", EXAM_DATE: " + examDate + ", SCORE: " + score +
-                            ", DURATION: " + duration);
+                    archives.add(archiveInfo);
                 }
-                Gson gson = new Gson();
-                String examsJson = gson.toJson(exams);
-                request.setAttribute("exams", exams);
 
-                // Set the content type of the response to JSON
                 response.setContentType("application/json");
 
-                // Write the JSON data to the response
-                PrintWriter out = response.getWriter();
-                out.print(examsJson);
-                out.flush();
-
+                Gson gson = new Gson();
+                String json = gson.toJson(archives);
+                out.println(json);
 //                RequestDispatcher dispatcher = request.getRequestDispatcher("/student.jsp");
 //                dispatcher.forward(request, response);
             }

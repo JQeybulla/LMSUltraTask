@@ -25,7 +25,7 @@ $.ajax({
 
         $.each(exams, function(index, exam){
             tableBody.append(
-                "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.id+"</td><td>"+exam.exam_date+"</td><td>"+exam.subject_id+"</td><td>"+exam.score+"</td></tr>"
+                "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.supervisorName+"</td><td>"+exam.examDate+"</td><td>"+exam.subjectName+"</td><td>"+exam.score+"</td></tr>"
             );
         });
     },
@@ -56,7 +56,7 @@ $("#archive").click(function() {
 
             $.each(exams, function(index, exam){
                 tableBody.append(
-                    "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.id+"</td><td>"+exam.exam_date+"</td><td>"+exam.subject_id+"</td><td>"+exam.score+"</td></tr>"
+                    "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.supervisorName+"</td><td>"+exam.examDate+"</td><td>"+exam.subjectName+"</td><td>"+exam.score+"</td></tr>"
                 );
             });
         },
