@@ -1,5 +1,6 @@
 package web;
 import domain.ExamInfo;
+import domain.FutureExamInfo;
 import domain.UsersInfo;
 import com.google.gson.Gson;
 import oracle.jdbc.OracleTypes;
@@ -63,7 +64,7 @@ public class ExamsServlet extends HttpServlet {
         CallableStatement call = null;
         ResultSet rs = null;
 
-        String sql = "{ ? = call MYPROJECT.GET_ALL_EXAMS() }";
+        String sql = "{ ? = call MYPROJECT.FUTURE_EXAMS() }";
 
         try {
             if (conn != null){
@@ -77,29 +78,17 @@ public class ExamsServlet extends HttpServlet {
 
                 rs = (ResultSet) call.getObject(1);
 
-                List<ExamInfo> exams = new ArrayList<>();
+                List<FutureExamInfo> exams = new ArrayList<>();
 
                 while (rs.next()) {
-                    int id = rs.getInt("ID");
-                    int subjectId = rs.getInt("SUBJECT_ID");
-                    Date examDate = rs.getDate("EXAM_DATE");
-                    int score = rs.getInt("SCORE");
-                    int duration = rs.getInt("DURATION");
+                    String subjectName = rs.getString(1);
+                    String examDate = rs.getString(2);
 
-
-
-                    ExamInfo examInfo = new ExamInfo();
-                    examInfo.setId(id);
-                    examInfo.setSubject_id(subjectId);
-                    examInfo.setExam_date(String.valueOf(examDate));
-                    examInfo.setScore(score);
-                    examInfo.setDuration(duration);
+                    FutureExamInfo examInfo = new FutureExamInfo();
+                    examInfo.setSubjectName(subjectName);
+                    examInfo.setExamDate(examDate);
 
                     exams.add(examInfo);
-                    // Do something with the fetched data
-                    System.out.println("ID: " + id + ", SUBJECT_ID: " + subjectId +
-                            ", EXAM_DATE: " + examDate + ", SCORE: " + score +
-                            ", DURATION: " + duration);
                 }
                 Gson gson = new Gson();
                 String examsJson = gson.toJson(exams);

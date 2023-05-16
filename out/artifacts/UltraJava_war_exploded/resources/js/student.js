@@ -81,7 +81,7 @@ $("#exams").click(function() {
             $.each(result, function(key, value){
 
                 $("#table").append(
-                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.subject_id+"</td><td>"+value.exam_date+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
+                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.subjectName+"</td><td>"+value.examDate+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
                 )
                 // console.log(value.subject)
             })
