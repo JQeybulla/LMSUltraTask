@@ -1,0 +1,56 @@
+{
+  "1":{
+    "supervisor": "Telman",
+    "subject":"Cografiya",
+    "date": "12 Mart 2001",
+    "score": "5"
+  },
+  "2":{
+    "supervisor": "Azad",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  },
+  "3":{
+    "supervisor": "Feli",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  },
+  "4":{
+    "supervisor": "Telman",
+    "subject":"Cografiya",
+    "date": "12 Mart 2001",
+    "score": "5"
+  },
+  "5":{
+    "supervisor": "Azad",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  },
+  "6":{
+    "supervisor": "Feli",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  },
+  "7":{
+    "supervisor": "Telman",
+    "subject":"Cografiya",
+    "date": "12 Mart 2001",
+    "score": "5"
+  },
+  "8":{
+    "supervisor": "Azad",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  },
+  "9":{
+    "supervisor": "Feli",
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "score": "4"
+  }
+}

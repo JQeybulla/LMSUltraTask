@@ -1,0 +1,92 @@
+#Registration{
+    display: flex;
+    justify-content: center;
+}
+
+#Registration .container{
+    background-color: #f7f8fc;
+    display: flex;
+    justify-content: center;
+}
+#Registration .regForm{
+    background-color: #f7f8fc;
+    padding-top: 50px;
+    height: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#Registration .regForm h1{
+    text-align: center;
+    font-weight: 760;
+}
+#Registration .regForm p{
+    text-align: center;
+}
+#Registration .regForm .buttons{
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+#Registration .regForm .buttons button{
+    width: 30%;
+    height: 45px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: 0.3s ease-in-out;
+    box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.75);
+}
+#Registration .regForm .buttons button:hover{
+    opacity: 0.9;
+}
+#Registration .regForm .buttons button i{
+    scale: 1.5;
+}
+#Registration .regForm .buttons .facebook{
+    background-color: #3955a0;
+    color: #fff;
+}
+#Registration .regForm .buttons .google{
+    background-color: #fff;
+    color: #000;
+}
+#Registration .regForm .buttons .apple{
+    background-color: #000;
+    color: #fff;
+}
+#Registration .regForm form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding-bottom: 40px;
+}
+#Registration .regForm form input{
+    height: 50px;
+    border-radius: 5px;
+    border: 1.5px solid gray;
+    /* border: none; */
+    /* outline: 1px solid gray; */
+    padding-left: 10px;
+}
+#Registration .regForm form input:focus{
+    outline: 2px solid #10b9b1;
+    border: none;
+}
+#Registration .regForm form .checkBox input{
+    height: 18px;
+    width: 18px;
+}
+
+#Registration .regForm form input[type="submit"]{
+    border: none !important;
+    height: 45px;
+    border-radius: 3px;
+}

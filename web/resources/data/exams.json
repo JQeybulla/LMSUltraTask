@@ -1,0 +1,38 @@
+{
+  "1":{
+    "subject":"Cografiya",
+    "date": "12 Mart 2001",
+    "room": "410",
+    "duration": "2 saat"
+  },
+  "2":{
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "room": "410",
+    "duration": "2 saat"
+  },
+  "3":{
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "room": "410",
+    "duration": "2 saat"
+  },
+  "4":{
+    "subject":"Cografiya",
+    "date": "12 Mart 2001",
+    "room": "410",
+    "duration": "2 saat"
+  },
+  "5":{
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "room": "410",
+    "duration": "2 saat"
+  },
+  "6":{
+    "subject":"Tarix",
+    "date": "9 Sentyabr 2001",
+    "room": "410",
+    "duration": "2 saat"
+  }
+}

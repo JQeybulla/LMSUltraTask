@@ -1,0 +1,181 @@
+*, body{
+    padding: 0;
+    margin: 0;
+}
+
+/* Nav start  */
+#Nav{
+    height: 70px;
+    background-color: rgb(240, 238, 237);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+#Nav .username{
+    width: 100%;
+    text-align: end;
+    font-size: 18px;
+    padding-right: 40px;
+}
+#Nav .username p{
+    color: #3d739c;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+/* Body start  */
+#Body{
+    overflow: hidden;
+    height: calc(100vh - 70px);
+    border: 1px solid green;
+    position: relative;
+}
+#Body .leftNav{
+    background-color: #5C6A9B;
+    height: calc(100vh - 70px);
+    color: #fff;
+}
+#Body .leftNav ul{
+    /* background-color: azure; */
+    height: 50%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    padding-top: 20px;
+    font-weight: 700;
+    gap: 20px;
+}
+#Body .leftNav ul li{
+    /* border: 1px solid red; */
+    text-align: left;
+    width: 70%;
+    transition: 0.25s ease-in-out;
+}
+#Body .leftNav ul li:hover{
+    cursor: pointer;
+    /* background-color: #fff; */
+    color: orange;
+}
+#Body .mainContent{
+    /* display: none; */
+    padding-left: 10px;
+    padding-right: 10px;
+    /* position: relative; */
+}
+
+#Body .mainContent .examForm{
+    height: 400px;
+    width: 750px;
+    position: absolute;
+    background-color: #fff;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+}
+/* ------------- */
+#Body .mainContent .examForm {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
+}
+
+#Body .mainContent .examForm h2 {
+    font-size: 2.5em;
+    margin-top: 30px;
+    /* text-align: center; */
+}
+
+#Body .mainContent .examForm form {
+    margin-top: 50px;
+    /* width: 50%; */
+    /* margin-left: 25%; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+}
+
+#Body .mainContent .examForm div {
+    margin-bottom: 10px;
+}
+
+#Body .mainContent .examForm label {
+    margin-left: 5px;
+    font-size: 17px;
+}
+#Body .mainContent .examForm .buttons{
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+#Body .mainContent .examForm button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+}
+
+#Body .mainContent .examForm button:hover {
+    background-color: #3e8e41;
+}
+
+#Body .mainContent .examForm input[type=radio] {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+
+/* -------------- */
+.rightNav{
+    background-color: #5C6A9B;
+    height: calc(100vh - 70px);
+}
+th, td{
+    text-align: center !important;
+    border: none;
+}
+.form-control{
+    display: none !important;
+}
+#Body .operations{
+    /* background-color: #a5a9b9; */
+    height: 50px;
+    display: flex;
+    justify-content: end;
+}
+#Body .operations .icons{
+    /* border: 1px solid green; */
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Body .operations .icons .icon{
+    /* border: 1px solid red; */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+#Body .operations .icons .icon svg{
+    width: 20px;
+    height: 20px;
+    transition: 0.2s ease-in-out;
+}
+#Body .operations .icons .icon svg:hover{
+    cursor: pointer;
+    color: #5C6A9B;
+}

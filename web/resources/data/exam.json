@@ -1,0 +1,30 @@
+{
+  "1":{
+    "question": "Who is the president of Russia",
+    "answers": {
+      "A": "Kim Jong Un",
+      "B": "J. Biden",
+      "C": "V. Putin",
+      "D": "RTE"
+    }
+
+  },
+  "2":{
+    "question": "What is the capital city of France?",
+    "answers": {
+      "A": "Paris",
+      "B": "Paris",
+      "C": "Paris",
+      "D": "Paris"
+    }
+  },
+  "3":{
+    "question": "What is the capital city of S.Korea?",
+    "answers": {
+      "A": "Seul",
+      "B": "Varshava",
+      "C": "Gdanks",
+      "D": "Baku"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "1":{
+    "id":1,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  },
+  "2":{
+    "id":2,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  },
+  "3":{
+    "id":3,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  },
+  "4":{
+    "id":4,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  },
+  "5":{
+    "id":5,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  },
+  "6":{
+    "id":6,
+    "name": "Asewome",
+    "faculty": "Mexmat",
+    "students_count":13
+  }
+}
