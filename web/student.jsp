@@ -47,6 +47,7 @@
                 out.print(user.getUsername());
               %>
             </p>
+            <a href="/UltraJava_war/logout"><button class="btn btn-primary">Çıxış</button></a>
           </div>
         </div>
       </div>

@@ -16,12 +16,29 @@
     text-align: end;
     font-size: 18px;
     padding-right: 40px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 30px;
+}
+#Nav .username button{
+    background-color: #5c6a9b !important;
+    width: 70px;
+    font-weight: 600;
 }
 #Nav .username p{
     color: #3d739c;
     font-weight: 600;
     padding: 0;
     margin: 0;
+    transition: 0.2s ease-in-out;
+    border: 2px solid #5c6a9b;
+    border-radius: 5px;
+    padding: 2px;
+}
+#Nav .username p:hover{
+    cursor: pointer;
+    color: chocolate;
 }
 /* Body start  */
 #Body{

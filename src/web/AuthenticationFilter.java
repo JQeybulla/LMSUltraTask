@@ -34,7 +34,6 @@ public class AuthenticationFilter implements Filter {
             // User is logged in, allow the request to proceed
             filterChain.doFilter(request, response);
         }
-
     }
 
     @Override
