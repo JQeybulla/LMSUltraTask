@@ -40,11 +40,12 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <url-pattern>/login.jsp</url-pattern>
-        <url-pattern>/login.jsp/#</url-pattern>
-        <url-pattern>/modals/*</url-pattern>
-        <url-pattern>/IMES/*</url-pattern>
-        <url-pattern>/fs</url-pattern>
+        <url-pattern>/student.jsp</url-pattern>
+<!--        <url-pattern>/login.jsp</url-pattern>-->
+<!--        <url-pattern>/login.jsp/#</url-pattern>-->
+<!--        <url-pattern>/modals/*</url-pattern>-->
+<!--        <url-pattern>/IMES/*</url-pattern>-->
+<!--        <url-pattern>/fs</url-pattern>-->
     </filter-mapping>
 
     <filter>
