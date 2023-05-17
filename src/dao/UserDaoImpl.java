@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao{
         Connection conn = df.connectDB();
         CallableStatement call = null;
         ResultSet rs = null;
-        String sql = "{call PRJ_SECURITY.USERS_PACKAGE.get_user(?,?,?,?,?)}";
+        String sql = "{call MYPROJECT.USERS_PACKAGE.GET_USER(?,?,?,?,?)}";
         String encPas = df.encodePass(password);
         try {
             if (conn != null) {

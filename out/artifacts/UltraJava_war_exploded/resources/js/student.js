@@ -85,7 +85,6 @@ $("#exams").click(function() {
                 )
                 // console.log(value.subject)
             })
-
         }
     })
 });

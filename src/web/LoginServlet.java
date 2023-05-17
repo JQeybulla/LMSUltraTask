@@ -101,6 +101,7 @@ public class LoginServlet extends HttpServlet {
                     System.out.println("Parol sehv");
                     address = Constant.PAGE_LOGIN;
                     request.getSession().setAttribute(Constant.MESSAGE, "İstifadəçi adı və ya şifrə səhvdir");
+//                    request.getSession().removeAttribute(Constant.MESSAGE);
                     //  request.getSession().setAttribute(Constant.MESSAGE, "Sistemə giriş müvəqqəti olaraq bloklanmışdır!");
                     forward = true;
                 }

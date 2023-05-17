@@ -44,7 +44,7 @@
         <div class="right">
           <ul>
             <!-- <li><a href="login.html"><button class="btn">Daxil ol</button></a></li> -->
-            <li><a href="registration.html"><button class="btn btn-reg">Qeydiyyat</button></a></li>
+            <li><a href="registration.jsp"><button class="btn btn-reg">Qeydiyyat</button></a></li>
           </ul>
         </div>
       </div>
@@ -79,12 +79,15 @@
               İstifadəçi razılaşmasıni qəbul edirəm.
             </label>
           </div>
-              <%
-                String message = (String) request.getSession().getAttribute(Constant.MESSAGE);
-                if (message != null) {
-                  %><p style="color: red"><%= message %></p><%
-                }
-              %>
+          <%
+            String message = (String) request.getSession().getAttribute(Constant.MESSAGE);
+            if (message != null) {
+          %>
+          <p style="color: red"><%= message %></p>
+          <%
+              request.getSession().removeAttribute(Constant.MESSAGE);
+            }
+          %>
           <input type="submit" class="btn btn-primary" value="Daxil Ol" name="" id="">
         </form>
       </div>
