@@ -88,6 +88,30 @@ $("#exams").click(function() {
         }
     })
 });
+
+// an onClick function for "Subjects"
+$("#subjects").click(function() {
+    $.ajax({
+        url: "/UltraJava_war/subjects",
+        success: function(result){
+            var myHead = document.getElementById("myHead")
+            myHead.innerHTML = ("<tr> \
+            <th data-field='state' data-checkbox='true'></th> \
+            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fennin Adi"+"</th> \
+            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Muellimin Adi"+"</th> \
+            </tr>");
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.teacher_full_name+"</td></tr>"
+                )
+                // console.log(value.subject)
+            })
+        }
+    })
+});
+
 $(document).ready(function(){
     // console.log("Helo")
     $("#table").on("tr", "click", function() {

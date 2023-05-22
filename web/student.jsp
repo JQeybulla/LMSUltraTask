@@ -62,7 +62,7 @@
         <ul>
           <li id="archive">Arxiv</li>
           <li id="exams">Imtahanlar</li>
-          <li>Fennler</li>
+          <li id="subjects">Fennler</li>
           <li>Ev tapsiriqlari</li>
           <li>Shikayet formu</li>
         </ul>
