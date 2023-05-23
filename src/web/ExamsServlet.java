@@ -1,11 +1,11 @@
 package web;
-import domain.ExamInfo;
-import domain.FutureExamInfo;
-import domain.UsersInfo;
+import domain.*;
 import com.google.gson.Gson;
 import oracle.jdbc.OracleTypes;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import services.UserService;
 import services.UserServiceImpl;
 import utils.DBFunction;
@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,34 +79,48 @@ public class ExamsServlet extends HttpServlet {
 
                 rs = (ResultSet) call.getObject(1);
 
-                List<FutureExamInfo> exams = new ArrayList<>();
+                if (rs != null){
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int columnCount = rsmd.getColumnCount();
+                    List<Row> params = new ArrayList<Row>();
 
-                while (rs.next()) {
-                    String subjectName = rs.getString(1);
-                    String examDate = rs.getString(2);
+                    while (rs.next()) {
+                        Row gp = new Row();
+                        List<Column> columnList = new ArrayList<>();
+                        for(int i = 1; i <= columnCount; i++){
+                            Column column = new Column();
+                            column.setKey(rsmd.getColumnName(i));
+                            column.setValue(rs.getString(rsmd.getColumnName(i)));
 
-                    FutureExamInfo examInfo = new FutureExamInfo();
-                    examInfo.setSubjectName(subjectName);
-                    examInfo.setExamDate(examDate);
+                            columnList.add(column);
+                        }
+                        gp.setColumns(columnList);
+                        params.add(gp);
+                    }
 
-                    exams.add(examInfo);
+                    JSONObject content = new JSONObject();
+                    JSONArray rows = new JSONArray();
+                    for (Row row : params){
+                        JSONObject r = new JSONObject();
+                        for (Column column : row.getColumns()){
+                            r.put(column.getKey().toLowerCase(), column.getValue());
+                        }
+                        rows.put(r);
+                    }
+                    content.put("options", rows);
+                    System.out.println(content);
+                    request.setAttribute("subjects", content);
+
+                    // Set the content type of the response to JSON
+                    response.setContentType("application/json");
+
+                    // Write the JSON data to the response
+                    PrintWriter out = response.getWriter();
+                    out.print(content);
+                    out.flush();
                 }
-                Gson gson = new Gson();
-                String examsJson = gson.toJson(exams);
-                request.setAttribute("exams", exams);
-
-                // Set the content type of the response to JSON
-                response.setContentType("application/json");
-
-                // Write the JSON data to the response
-                PrintWriter out = response.getWriter();
-                out.print(examsJson);
-                out.flush();
-
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/student.jsp");
-//                dispatcher.forward(request, response);
             }
-        }catch (Exception exception){
+        } catch (Exception exception){
             exception.printStackTrace();
         }
     }

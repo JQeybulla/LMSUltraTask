@@ -23,9 +23,9 @@ $.ajax({
         var tableBody = $("#table tbody");
         tableBody.empty(); // Clear existing table body content
 
-        $.each(exams, function(index, exam){
+        $.each(exams.options, function(index, exam){
             tableBody.append(
-                "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.supervisorName+"</td><td>"+exam.examDate+"</td><td>"+exam.subjectName+"</td><td>"+exam.score+"</td></tr>"
+                "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.name+"</td><td>"+exam.exam_date+"</td><td>"+exam.sbj_name+"</td><td>"+exam.score+"</td></tr>"
             );
         });
     },
@@ -54,9 +54,10 @@ $("#archive").click(function() {
             var tableBody = $("#myBody");
             tableBody.empty();
 
-            $.each(exams, function(index, exam){
+            $.each(exams.options, function(index, exam){
+                console.log(exam)
                 tableBody.append(
-                    "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.supervisorName+"</td><td>"+exam.examDate+"</td><td>"+exam.subjectName+"</td><td>"+exam.score+"</td></tr>"
+                    "<tr><td class='bs-checkbox'><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+exam.name+"</td><td>"+exam.exam_date+"</td><td>"+exam.sbj_name+"</td><td>"+exam.score+"</td></tr>"
                 );
             });
         },
@@ -78,10 +79,10 @@ $("#exams").click(function() {
             <th data-field='note' data-sortable='true'>"+"Istirak et"+"</th></tr>");
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
-            $.each(result, function(key, value){
+            $.each(result.options, function(key, value){
 
                 $("#table").append(
-                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.subjectName+"</td><td>"+value.examDate+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
+                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.exam_date+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
                 )
                 // console.log(value.subject)
             })
@@ -93,7 +94,7 @@ $("#exams").click(function() {
 var subjectsOption =
     "<select style='text-align: center' name=\"subjectCombo\" id=\"subjectCombo\">\n"
 var teacherSelectOption =
-    "<select name=\"teacherCombo\" id=\"teacherCombo\">\n"
+    "<select style='text-align: center' name=\"teacherCombo\" id=\"teacherCombo\">\n"
 
 $.ajax({
     url: "/UltraJava_war/subjects-combo",

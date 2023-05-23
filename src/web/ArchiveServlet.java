@@ -1,11 +1,11 @@
 package web;
-import domain.ArchiveInfo;
-import domain.ExamInfo;
-import domain.UsersInfo;
+import domain.*;
 import com.google.gson.Gson;
 import oracle.jdbc.OracleTypes;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import services.UserService;
 import services.UserServiceImpl;
 import utils.DBFunction;
@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +60,6 @@ public class ArchiveServlet extends HttpServlet {
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
         UserService userService = new UserServiceImpl();
         String ACTION = "action";
-        PrintWriter out = response.getWriter();
         Connection conn = df.connectDB();
         CallableStatement call = null;
         ResultSet rs = null;
@@ -78,32 +78,48 @@ public class ArchiveServlet extends HttpServlet {
 
                 rs = (ResultSet) call.getObject(1);
 
-                List<ArchiveInfo> archives = new ArrayList<>();
-                while (rs.next()) {
-                    String supervisorName = rs.getString(1);
-                    String examDate = rs.getString(2);
-                    String subject = rs.getString(3);
-                    int score = rs.getInt(4);
+                if (rs != null){
+                    ResultSetMetaData rsmd = rs.getMetaData();
+                    int columnCount = rsmd.getColumnCount();
+                    List<Row> params = new ArrayList<Row>();
 
-                    ArchiveInfo archiveInfo = new ArchiveInfo();
+                    while (rs.next()) {
+                        Row gp = new Row();
+                        List<Column> columnList = new ArrayList<>();
+                        for(int i = 1; i <= columnCount; i++){
+                            Column column = new Column();
+                            column.setKey(rsmd.getColumnName(i));
+                            column.setValue(rs.getString(rsmd.getColumnName(i)));
 
-                    archiveInfo.setSupervisorName(supervisorName);
-                    archiveInfo.setExamDate(examDate);
-                    archiveInfo.setSubjectName(subject);
-                    archiveInfo.setScore(score);
+                            columnList.add(column);
+                        }
+                        gp.setColumns(columnList);
+                        params.add(gp);
+                    }
 
-                    archives.add(archiveInfo);
+                    JSONObject content = new JSONObject();
+                    JSONArray rows = new JSONArray();
+                    for (Row row : params){
+                        JSONObject r = new JSONObject();
+                        for (Column column : row.getColumns()){
+                            r.put(column.getKey().toLowerCase(), column.getValue());
+                        }
+                        rows.put(r);
+                    }
+                    content.put("options", rows);
+                    System.out.println(content);
+                    request.setAttribute("subjects", content);
+
+                    // Set the content type of the response to JSON
+                    response.setContentType("application/json");
+
+                    // Write the JSON data to the response
+                    PrintWriter out = response.getWriter();
+                    out.print(content);
+                    out.flush();
                 }
-
-                response.setContentType("application/json");
-
-                Gson gson = new Gson();
-                String json = gson.toJson(archives);
-                out.println(json);
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/student.jsp");
-//                dispatcher.forward(request, response);
             }
-        }catch (Exception exception){
+        } catch (Exception exception){
             exception.printStackTrace();
         }
     }
