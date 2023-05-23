@@ -98,7 +98,7 @@ var teacherSelectOption =
 $.ajax({
     url: "/UltraJava_war/subjects-combo",
     success: function (result){
-        subjectsOption += ("<option value=" + 0 + ">" + "---------" + "</option>\n");
+        subjectsOption += ("<option value=" + 0 + ">" + "-------------" + "</option>\n");
         $.each(result.options, function (key, value){
             console.log(value.name)
             subjectsOption += ("<option value=" + value.id + ">" + value.name + "</option>\n");
@@ -110,10 +110,10 @@ $.ajax({
 $.ajax({
     url: "/UltraJava_war/subject-teacher-combo",
     success: function (result){
-        console.log(result.options);
+        teacherSelectOption += ("<option value=" + 0 + ">" + "-------------" + "</option>\n");
         $.each(result.options, function (key, value){
             console.log(value.full_name)
-            teacherSelectOption += ("<option value=" + value.full_name + ">" + value.full_name + "</option>\n");
+            teacherSelectOption += ("<option value=" + value.teacher_id + ">" + value.full_name + "</option>\n");
         });
         teacherSelectOption += ("</select>")
 
@@ -150,15 +150,21 @@ $("#subjects").click(function() {
     })
 });
 
+var subject_id = 0;
+var teacher_id = 0;
+
+
 // OnChange function for subjects combo
 $(document).on("change", "#subjectCombo", function() {
     console.log("This is working")
     var selectedOption = $(this).val(); // Get the selected option value
-
+    subject_id = selectedOption
+    sent_url = `/UltraJava_war/subjects-combo-filter?id=${subject_id}&teacher_id=${teacher_id}`
     // corresponding ajax
     $.ajax({
-        url: "/UltraJava_war/subjects-combo-filter?id=" + selectedOption,
+        url: sent_url,
         success: function(result){
+            console.log(result)
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
 
@@ -178,6 +184,36 @@ $(document).on("change", "#subjectCombo", function() {
 
 });
 
+// OnChange function for subjects combo for teacher name
+$(document).on("change", "#teacherCombo", function() {
+    console.log("This is working")
+    var selectedOption = $(this).val(); // Get the selected option value
+    teacher_id = selectedOption
+    sent_url = `/UltraJava_war/subjects-combo-filter?id=${subject_id}&teacher_id=${teacher_id}`
+    console.log(selectedOption)
+    // corresponding ajax
+    $.ajax({
+        url: sent_url,
+        success: function(result){
+            console.log(result)
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr>" +
+                    "<td class='bs-checkbox '>" +
+                    "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                    "</td>" +
+                    "<td>"+value.name+"</td>" +
+                    "<td>"+value.teacher_full_name+"</td>" +
+                    "</tr>"
+                )
+            })
+        }
+    })
+
+});
 $(document).ready(function(){
     // console.log("Helo")
     $("#table").on("tr", "click", function() {

@@ -57,9 +57,16 @@ public class SubjectsComboServletFilter extends HttpServlet {
         CallableStatement call = null;
         ResultSet rs = null;
 
-        String sql = "{ ? = call MYPROJECT.GET_SPESIFIC_SUBJECTS(?) }";
+        String sql = "{ ? = call MYPROJECT.GET_SPECIFIC_SUBJECTS(?, ?) }";
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = 0;
+        int teacher_id = 0;
+        if (request.getParameter("id") != null){
+            id = Integer.parseInt(request.getParameter("id"));
+        }
+        if (request.getParameter("teacher_id") != null){
+            teacher_id = Integer.parseInt(request.getParameter("teacher_id"));
+        }
         System.out.println("ID = " + id);
 
         try {
@@ -69,7 +76,7 @@ public class SubjectsComboServletFilter extends HttpServlet {
                 // Registering the output parameter as REF_CURSOR
                 call.registerOutParameter(1, OracleTypes.CURSOR);
                 call.setInt(2, id);
-
+                call.setInt(3, teacher_id);
                 // Executing the function call
                 call.execute();
 
@@ -104,7 +111,7 @@ public class SubjectsComboServletFilter extends HttpServlet {
                         rows.put(r);
                     }
                     content.put("options", rows);
-
+                    System.out.println(content);
                     request.setAttribute("subjects", content);
 
                     // Set the content type of the response to JSON
@@ -115,11 +122,8 @@ public class SubjectsComboServletFilter extends HttpServlet {
                     out.print(content);
                     out.flush();
                 }
-
-//                RequestDispatcher dispatcher = request.getRequestDispatcher("/student.jsp");
-//                dispatcher.forward(request, response);
             }
-        }catch (Exception exception){
+        } catch (Exception exception){
             exception.printStackTrace();
         }
     }
