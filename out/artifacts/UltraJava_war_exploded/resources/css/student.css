@@ -196,3 +196,10 @@ th, td{
     cursor: pointer;
     color: #5C6A9B;
 }
+
+#custom-row{
+    background-color: #fc0000 !important;
+}
+.customRow{
+    background-color: #ffffff !important;
+}

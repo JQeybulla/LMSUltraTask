@@ -89,6 +89,37 @@ $("#exams").click(function() {
     })
 });
 
+// configuring <tr> for Subject names
+var subjectsOption =
+    "<select name=\"subjectCombo\" id=\"subjectCombo\">\n"
+var teacherSelectOption =
+    "<select name=\"teacherCombo\" id=\"teacherCombo\">\n"
+
+$.ajax({
+    url: "/UltraJava_war/subjects-combo",
+    success: function (result){
+        console.log(result.options);
+        $.each(result.options, function (key, value){
+            console.log(value.name)
+            subjectsOption += ("<option value=" + value.id + ">" + value.name + "</option>\n");
+        });
+        subjectsOption += ("</select>")
+
+    }
+})
+$.ajax({
+    url: "/UltraJava_war/subject-teacher-combo",
+    success: function (result){
+        console.log(result.options);
+        $.each(result.options, function (key, value){
+            console.log(value.full_name)
+            teacherSelectOption += ("<option value=" + value.full_name + ">" + value.full_name + "</option>\n");
+        });
+        teacherSelectOption += ("</select>")
+
+    }
+})
+console.log(subjectsOption)
 // an onClick function for "Subjects"
 $("#subjects").click(function() {
     $.ajax({
@@ -97,19 +128,42 @@ $("#subjects").click(function() {
             var myHead = document.getElementById("myHead")
             myHead.innerHTML = ("<tr> \
             <th data-field='state' data-checkbox='true'></th> \
-            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fennin Adi"+"</th> \
-            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Muellimin Adi"+"</th> \
+            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"<section>Fennin Adi" +"<br>"+ subjectsOption  +" </section> </th> \
+            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Muellimin Adi" + "<br>" + teacherSelectOption +"</th> \
             </tr>");
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
+
+
+            // $("#table").append(
+            //     "<tr id='custom-row' class='customRow' style='background-color: #ffffff !important;'>" +
+            //         "<td class='bs-checkbox '>" +
+            //             "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+            //         "</td>" +
+            //         subjectsOption +
+            //         teacherSelectOption +
+            //     "</tr>"
+            // )
             $.each(result.options, function(key, value){
                 $("#table").append(
-                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.teacher_full_name+"</td></tr>"
+                    "<tr>" +
+                        "<td class='bs-checkbox '>" +
+                            "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                        "</td>" +
+                        "<td>"+value.name+"</td>" +
+                        "<td>"+value.teacher_full_name+"</td>" +
+                    "</tr>"
                 )
-                // console.log(value.subject)
             })
         }
     })
+});
+
+$(document).on("change", "#subjectCombo", function() {
+    console.log("This is working")
+    var selectedOption = $(this).val(); // Get the selected option value
+    console.log("Selected option: " + selectedOption);
+
 });
 
 $(document).ready(function(){
@@ -117,41 +171,6 @@ $(document).ready(function(){
     $("#table").on("tr", "click", function() {
     });
 })
-// $(document).ready(function() {
-//     var data; // to store the JSON datacon
-//     // console.log(data)
-//     var currentIndex = 0; // to keep track of the current question index
-//
-//     $.ajax({
-//         url: '/resources/data/exam.json',
-//         dataType: 'json',
-//         success: function(json) {
-//             data = json; // store the JSON data in the 'data' variable
-//             console.log('JSON data loaded successfully:', data);
-//         },
-//         error: function(jqxhr, textStatus, error) {
-//             var errorMessage = textStatus + ', ' + error;
-//             console.error('Error loading JSON data:', errorMessage);
-//         }
-//     });
-//
-//     console.log(currentIndex)
-//     $('#next').click(function(event) {
-//         event.preventDefault();
-//         var question = data[currentIndex % Object.keys(data).length + 1]; // get the next question in order
-//         console.log(question.answers.A)
-//         console.log(question.answers.B)
-//         console.log(question.answers.C)
-//         console.log(question.answers.D)
-//         $('#questionHeader').text(question.question); // update the text element with the new question
-//         $('#answer1').prop('checked', false).next('label').text(question.answers.A);
-//         $('#answer2').prop('checked', false).next('label').text(question.answers.B);
-//         $('#answer3').prop('checked', false).next('label').text(question.answers.C);
-//         $('#answer4').prop('checked', false).next('label').text(question.answers.D);
-//         $('input[name=answer]:checked').prop('checked', false);
-//         currentIndex++; // increment the current question index
-//     });
-// });
 
 
 $("#finish").click(function(event){

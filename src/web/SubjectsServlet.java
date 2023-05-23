@@ -78,8 +78,6 @@ public class SubjectsServlet extends HttpServlet {
 
                 rs = (ResultSet) call.getObject(1);
 
-                List<FutureExamInfo> exams = new ArrayList<>();
-
                 if (rs != null){
                     ResultSetMetaData rsmd = rs.getMetaData();
                     int columnCount = rsmd.getColumnCount();
@@ -87,9 +85,8 @@ public class SubjectsServlet extends HttpServlet {
 
                     while (rs.next()) {
                         Row gp = new Row();
-                        List<Column> columnList = new ArrayList<Column>();
+                        List<Column> columnList = new ArrayList<>();
                         for(int i = 1; i <= columnCount; i++){
-                            System.out.println(i);
                             Column column = new Column();
                             column.setKey(rsmd.getColumnName(i));
                             column.setValue(rs.getString(rsmd.getColumnName(i)));
