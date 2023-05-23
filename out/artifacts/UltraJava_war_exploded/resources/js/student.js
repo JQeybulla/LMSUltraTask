@@ -91,14 +91,14 @@ $("#exams").click(function() {
 
 // configuring <tr> for Subject names
 var subjectsOption =
-    "<select name=\"subjectCombo\" id=\"subjectCombo\">\n"
+    "<select style='text-align: center' name=\"subjectCombo\" id=\"subjectCombo\">\n"
 var teacherSelectOption =
     "<select name=\"teacherCombo\" id=\"teacherCombo\">\n"
 
 $.ajax({
     url: "/UltraJava_war/subjects-combo",
     success: function (result){
-        console.log(result.options);
+        subjectsOption += ("<option value=" + 0 + ">" + "---------" + "</option>\n");
         $.each(result.options, function (key, value){
             console.log(value.name)
             subjectsOption += ("<option value=" + value.id + ">" + value.name + "</option>\n");
@@ -119,7 +119,7 @@ $.ajax({
 
     }
 })
-console.log(subjectsOption)
+
 // an onClick function for "Subjects"
 $("#subjects").click(function() {
     $.ajax({
@@ -135,15 +135,6 @@ $("#subjects").click(function() {
             myBody.innerHTML = ("");
 
 
-            // $("#table").append(
-            //     "<tr id='custom-row' class='customRow' style='background-color: #ffffff !important;'>" +
-            //         "<td class='bs-checkbox '>" +
-            //             "<input data-index='0' name='btSelectItem' type='checkbox'>" +
-            //         "</td>" +
-            //         subjectsOption +
-            //         teacherSelectOption +
-            //     "</tr>"
-            // )
             $.each(result.options, function(key, value){
                 $("#table").append(
                     "<tr>" +
@@ -159,10 +150,31 @@ $("#subjects").click(function() {
     })
 });
 
+// OnChange function for subjects combo
 $(document).on("change", "#subjectCombo", function() {
     console.log("This is working")
     var selectedOption = $(this).val(); // Get the selected option value
-    console.log("Selected option: " + selectedOption);
+
+    // corresponding ajax
+    $.ajax({
+        url: "/UltraJava_war/subjects-combo-filter?id=" + selectedOption,
+        success: function(result){
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr>" +
+                    "<td class='bs-checkbox '>" +
+                    "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                    "</td>" +
+                    "<td>"+value.name+"</td>" +
+                    "<td>"+value.teacher_full_name+"</td>" +
+                    "</tr>"
+                )
+            })
+        }
+    })
 
 });
 
