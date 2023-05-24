@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/future-exams-subjects-filter")
@@ -50,19 +51,25 @@ public class FutureExamsSubjectsFilter extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String address = Constant.PAGE_MAIN_STUDENT;
         boolean forward = false;
-        SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String ACTION = "action";
 
         Connection conn = df.connectDB();
         CallableStatement call = null;
         ResultSet rs = null;
 
-        String sql = "{ ? = call MYPROJECT.FUTURE_EXAMS_SUBJECTS_FILTER(?) }";
+        String sql = "{ ? = call MYPROJECT.FUTURE_EXAMS_SUBJECT_FILTER(?, ?) }";
 
         int id = 0;
         if (request.getParameter("id") != null){
             id = Integer.parseInt(request.getParameter("id"));
         }
+
+        String exam_date = null;
+        if (!request.getParameter("exam_date").equals("")){
+            exam_date = request.getParameter("exam_date");
+        }
+        System.out.println("Exam date: " + exam_date);
 
         try {
             if (conn != null){
@@ -71,6 +78,7 @@ public class FutureExamsSubjectsFilter extends HttpServlet {
                 // Registering the output parameter as REF_CURSOR
                 call.registerOutParameter(1, OracleTypes.CURSOR);
                 call.setInt(2, id);
+                call.setString(3, exam_date);
                 // Executing the function call
                 call.execute();
 

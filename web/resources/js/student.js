@@ -83,7 +83,7 @@ $.ajax({
         examsSubjectCombo += ("</select>")
     }
 })
-// Onclick function
+// Onclick function for exams
 $("#exams").click(function() {
     $.ajax({
         url: "/UltraJava_war/exams",
@@ -92,7 +92,7 @@ $("#exams").click(function() {
             myHead.innerHTML = ("<tr> \
             <th data-field='state' data-checkbox='true'></th> \
             <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fenn <br>"+examsSubjectCombo+"</th> \
-            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Tarix"+"</th> \
+            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Tarix <br>"+"<input type=\"date\" id=\"examDate\" name=\"examDate\">"+"</th> \
             <th data-field='note' data-sortable='true'>"+"Istirak et"+"</th></tr>");
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
@@ -106,13 +106,45 @@ $("#exams").click(function() {
         }
     })
 });
+var exam_date = ""
+// OnChange function for exam date combo in Future exams
+$(document).on("change", "#examDate", function() {
+    console.log("This is working")
+    var selectedOption = $(this).val(); // Get the selected option value
+    exam_date = selectedOption
+    console.log(selectedOption)
+    sent_url = `/UltraJava_war/future-exams-subjects-filter?id=${subject_id}&exam_date=${exam_date}`
+    //corresponding ajax
+    $.ajax({
+        url: sent_url,
+        success: function(result){
+            console.log(result)
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
 
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr>" +
+                    "<td class='bs-checkbox '>" +
+                    "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                    "</td>" +
+                    "<td>"+value.name+"</td>" +
+                    "<td>"+value.exam_date+"</td>" +
+                    "<td>"+ "<button class='btn btn-primary' id='startExamButton'>Bashla</button>" +
+                    "</td>" +
+                    "</tr>"
+                )
+            })
+        }
+    })
+
+});
 // OnChange function for subjects combo in Future exams
 $(document).on("change", "#examsSubjectCombo", function() {
     console.log("This is working")
     var selectedOption = $(this).val(); // Get the selected option value
     subject_id = selectedOption
-    sent_url = `/UltraJava_war/future-exams-subjects-filter?id=${subject_id}`
+    sent_url = `/UltraJava_war/future-exams-subjects-filter?id=${subject_id}&exam_date=${exam_date}`
     // corresponding ajax
     $.ajax({
         url: sent_url,
