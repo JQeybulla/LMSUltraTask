@@ -67,6 +67,23 @@ $("#archive").click(function() {
     });
 });
 
+// a combo in exams section, for filtering exams by subject names
+var examsSubjectCombo =
+    "<select style='text-align: center' name=\"examsSubjectCombo\" id=\"examsSubjectCombo\">\n"
+
+// ajax for filling examsSubjectCombo
+$.ajax({
+    url: "/UltraJava_war/future-exams-subject-combo",
+    success: function (result){
+        examsSubjectCombo += ("<option value=" + 0 + ">" + "-------------" + "</option>\n");
+        $.each(result.options, function (key, value){
+            console.log(value.name)
+            examsSubjectCombo += ("<option value=" + value.id + ">" + value.name + "</option>\n");
+        });
+        examsSubjectCombo += ("</select>")
+    }
+})
+// Onclick function
 $("#exams").click(function() {
     $.ajax({
         url: "/UltraJava_war/exams",
@@ -74,7 +91,7 @@ $("#exams").click(function() {
             var myHead = document.getElementById("myHead")
             myHead.innerHTML = ("<tr> \
             <th data-field='state' data-checkbox='true'></th> \
-            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fenn"+"</th> \
+            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fenn <br>"+examsSubjectCombo+"</th> \
             <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Tarix"+"</th> \
             <th data-field='note' data-sortable='true'>"+"Istirak et"+"</th></tr>");
             var myBody = document.getElementById("myBody")
@@ -88,6 +105,38 @@ $("#exams").click(function() {
             })
         }
     })
+});
+
+// OnChange function for subjects combo in Future exams
+$(document).on("change", "#examsSubjectCombo", function() {
+    console.log("This is working")
+    var selectedOption = $(this).val(); // Get the selected option value
+    subject_id = selectedOption
+    sent_url = `/UltraJava_war/future-exams-subjects-filter?id=${subject_id}`
+    // corresponding ajax
+    $.ajax({
+        url: sent_url,
+        success: function(result){
+            console.log(result)
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr>" +
+                        "<td class='bs-checkbox '>" +
+                            "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                        "</td>" +
+                        "<td>"+value.name+"</td>" +
+                        "<td>"+value.exam_date+"</td>" +
+                        "<td>"+ "<button class='btn btn-primary' id='startExamButton'>Bashla</button>" +
+                        "</td>" +
+                    "</tr>"
+                )
+            })
+        }
+    })
+
 });
 
 // configuring <tr> for Subject names
@@ -105,7 +154,6 @@ $.ajax({
             subjectsOption += ("<option value=" + value.id + ">" + value.name + "</option>\n");
         });
         subjectsOption += ("</select>")
-
     }
 })
 $.ajax({
