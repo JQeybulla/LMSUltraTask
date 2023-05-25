@@ -1,0 +1,192 @@
+*, body{
+    padding: 0;
+    margin: 0;
+}
+
+/* Nav start  */
+#Nav{
+    height: 70px;
+    background-color: rgb(240, 238, 237);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+#Nav .username{
+    width: 100%;
+    text-align: end;
+    font-size: 18px;
+    padding-right: 40px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 30px;
+}
+#Nav .username button{
+    background-color: #5c6a9b !important;
+    width: 70px;
+    font-weight: 600;
+}
+#Nav .username p{
+    color: #3d739c;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+    transition: 0.2s ease-in-out;
+    border: 2px solid #5c6a9b;
+    border-radius: 5px;
+    padding: 2px;
+}
+#Nav .username p:hover{
+    cursor: pointer;
+    color: chocolate;
+}
+/* Body start  */
+#Body{
+    overflow: hidden;
+    height: calc(100vh - 70px);
+    border: 1px solid green;
+    position: relative;
+}
+#Body .leftNav{
+    background-color: #5C6A9B;
+    height: calc(100vh - 70px);
+    color: #fff;
+}
+#Body .leftNav ul{
+    /* background-color: azure; */
+    height: 50%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    padding-top: 20px;
+    font-weight: 700;
+    gap: 20px;
+}
+#Body .leftNav ul li{
+    /* border: 1px solid red; */
+    text-align: left;
+    width: 70%;
+    transition: 0.25s ease-in-out;
+}
+#Body .leftNav ul li:hover{
+    cursor: pointer;
+    /* background-color: #fff; */
+    color: orange;
+}
+#Body .mainContent{
+    /* display: none; */
+    padding-left: 10px;
+    padding-right: 10px;
+    /* position: relative; */
+}
+#Body .mainContent .addExam{
+    display: none;
+}
+
+#Body .mainContent .addExamForm{
+    height: 500px;
+    width: 800px;
+    position: absolute;
+    background-color: #aab8eb;
+    top:40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    justify-content: space-around;
+    padding: 30px 0;
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 30px;
+    border-radius: 30px;
+}
+#Body .mainContent .addExamForm .buttons{
+    /* background-color: #5C6A9B; */
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+#Body .mainContent .addExamForm .buttons button{
+    width: 70px;
+    background-color: #5C6A9B;
+    color: #fff;
+}
+#Body .mainContent .addExamForm form{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-left: 2.5%;
+}
+#Body .mainContent .addExamForm form input{
+    border-radius: 5px;
+    padding-left: 5px;
+    /* border: none; */
+}
+#Body .mainContent .addExamForm form textarea.question{
+    height: 80px;
+    max-height: 1000px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    outline: none;
+    padding-left: 5px;
+}
+#Body .mainContent .addExamForm form textarea.question:focus{
+    outline: 2px solid #5C6A9B;
+}
+#Body .mainContent .addExamForm form input.answer{
+    height: 40px;
+    outline: none;
+    border: none;
+}
+#Body .mainContent .addExamForm form input.answer:focus{
+    outline: 2px solid #5C6A9B;
+}
+/* ------------- */
+
+
+
+/* -------------- */
+.rightNav{
+    background-color: #5C6A9B;
+    height: calc(100vh - 70px);
+}
+th, td{
+    text-align: center !important;
+    border: none;
+}
+.form-control{
+    display: none !important;
+}
+#Body .operations{
+    /* background-color: #a5a9b9; */
+    height: 50px;
+    display: flex;
+    justify-content: end;
+}
+#Body .operations .icons{
+    /* border: 1px solid green; */
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Body .operations .icons .icon{
+    /* border: 1px solid red; */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+#Body .operations .icons .icon svg{
+    width: 20px;
+    height: 20px;
+    transition: 0.2s ease-in-out;
+}
+#Body .operations .icons .icon svg:hover{
+    cursor: pointer;
+    color: #5C6A9B;
+}

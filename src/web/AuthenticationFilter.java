@@ -1,5 +1,6 @@
 package web;
 
+import domain.UsersInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -31,6 +32,7 @@ public class AuthenticationFilter implements Filter {
             httpRequest.getSession().setAttribute(Constant.MESSAGE, "Sistemə giriş edin və ya qeydiyyatdan keçin");
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/"+ Constant.PAGE_LOGIN);
         } else {
+//            UsersInfo usersInfo = (UsersInfo) httpRequest.getSession().getAttribute("user");
             // User is logged in, allow the request to proceed
             filterChain.doFilter(request, response);
         }

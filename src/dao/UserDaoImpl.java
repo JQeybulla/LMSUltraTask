@@ -19,14 +19,14 @@ public class UserDaoImpl implements UserDao{
 
 
     @Override
-    public UsersInfo getUser(Long userId, String username, String password) throws Exception {
+    public UsersInfo getUser(Long userId, String username, String password, int is_teacher) throws Exception {
         UsersInfo user = new UsersInfo();
         user.setId(userId);
 
         Connection conn = df.connectDB();
         CallableStatement call = null;
         ResultSet rs = null;
-        String sql = "{call MYPROJECT.USERS_PACKAGE.GET_USER(?,?,?,?,?)}";
+        String sql = "{call MYPROJECT.USERS_PACKAGE.GET_USER(?,?,?,?,?,?)}";
         String encPas = df.encodePass(password);
         try {
             if (conn != null) {
@@ -38,7 +38,7 @@ public class UserDaoImpl implements UserDao{
                     call.setString(3, password);
                     call.registerOutParameter(4, OracleTypes.INTEGER);
                     call.registerOutParameter(5, OracleTypes.INTEGER);
-
+                    call.registerOutParameter(6, OracleTypes.INTEGER);
                     call.execute();
 
                     int login = (Integer) call.getObject(4);
@@ -57,6 +57,9 @@ public class UserDaoImpl implements UserDao{
 //                            System.out.println(call.getLong(4));
 //                            rs = (ResultSet) call.getObject(4);
                             user.setId(call.getLong(5));
+                            is_teacher = call.getInt(6);
+                            user.setIs_teacher(is_teacher);
+                            System.out.println("IS_TEACHER: " + is_teacher);
                             user.setUsername(username);
                             user.setPassword(password);
                         }

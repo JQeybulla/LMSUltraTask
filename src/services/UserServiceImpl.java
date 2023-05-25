@@ -10,9 +10,9 @@ import java.util.Map;
 public class UserServiceImpl implements UserService{
     UserDao uDao = new UserDaoImpl();
     @Override
-    public UsersInfo getUser(Long id, String username, String password) throws Exception {
+    public UsersInfo getUser(Long id, String username, String password, int is_teacher) throws Exception {
 //        System.out.println("UserInfo is called"); // passed
-        return uDao.getUser(id, username, password);
+        return uDao.getUser(id, username, password, is_teacher);
     }
 
     @Override

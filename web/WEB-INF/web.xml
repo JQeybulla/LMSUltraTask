@@ -41,11 +41,20 @@
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
         <url-pattern>/student.jsp</url-pattern>
-<!--        <url-pattern>/login.jsp</url-pattern>-->
+        <url-pattern>/teacher.jsp</url-pattern>
 <!--        <url-pattern>/login.jsp/#</url-pattern>-->
 <!--        <url-pattern>/modals/*</url-pattern>-->
 <!--        <url-pattern>/IMES/*</url-pattern>-->
 <!--        <url-pattern>/fs</url-pattern>-->
+    </filter-mapping>
+
+    <filter>
+        <filter-name>TeacherPageFIlter</filter-name>
+        <filter-class>web.TeacherPageFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TeacherPageFIlter</filter-name>
+        <url-pattern>/teacher.jsp</url-pattern>
     </filter-mapping>
 
     <filter>
