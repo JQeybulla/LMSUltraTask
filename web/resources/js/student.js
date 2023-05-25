@@ -8,17 +8,46 @@ $(function () {
     });
 })
 
+
 var trBoldBlue = $("table");
+
 
 $(trBoldBlue).on("click", "tr", function (){
     $(this).toggleClass("bold-blue");
 });
+
+
+var archiveSupervisorCombo =
+    "<select style='text-align: center' name=\"archiveSupervisorCombo\" id=\"archiveSupervisorCombo\">\n"
+
+
+// Ajax for filling archiveSupervisorCombo
+$.ajax({
+    url: "/UltraJava_war/archive?distinctAction=supervisor",
+    success: function (result){
+        archiveSupervisorCombo += ("<option value=" + 0 + ">" + "-------------" + "</option>\n");
+        $.each(result.options, function (key, value){
+            console.log(value.name)
+            archiveSupervisorCombo += ("<option value=" + value.id + ">" + value.sbj_name + "</option>\n");
+        });
+        archiveSupervisorCombo += ("</select>")
+    }
+})
 $.ajax({
     url: "/UltraJava_war/archive",
     success: function(result){
         console.log(result);
 
         var exams = result;
+
+        var tableHead = $("#myHead");
+        tableHead.html("<tr> \
+                <th data-field='state' data-checkbox='true'></th> \
+                <th data-field='date' data-filter-control='select' data-sortable='true'>Superviser <br>" + archiveSupervisorCombo + "</th> \
+                <th data-field='date' data-filter-control='select' data-sortable='true'>Tarix</th> \
+                <th data-field='examen' data-filter-control='select' data-sortable='true'>Fenn</th> \
+                <th data-field='note' data-sortable='true'>Qiymet</th> \
+            </tr>");
 
         var tableBody = $("#table tbody");
         tableBody.empty(); // Clear existing table body content
@@ -34,6 +63,41 @@ $.ajax({
     }
 });
 
+
+// OnChange function for archiveSupervisorCombo in Archive
+$(document).on("change", "#archiveSupervisorCombo", function() {
+    console.log("This is working")
+    var selectedOption = $(this).val(); // Get the selected option value
+    teacher_id = selectedOption
+    sent_url = `/UltraJava_war/archive?teacher_id=${teacher_id}`
+    // corresponding ajax
+    $.ajax({
+        url: sent_url,
+        success: function(result){
+            console.log(result)
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+
+            $.each(result.options, function(key, value){
+                $("#table").append(
+                    "<tr>" +
+                    "<td class='bs-checkbox '>" +
+                    "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                    "</td>" +
+                    "<td>"+value.name+"</td>" +
+                    "<td>"+value.exam_date+"</td>" +
+                    "<td>"+value.sbj_name+"</td>" +
+                    "<td>"+ value.score +
+                    "</td>" +
+                    "</tr>"
+                )
+            })
+        }
+    })
+
+});
+
+
 $("#archive").click(function() {
     $.ajax({
         url: "/UltraJava_war/archive",
@@ -45,7 +109,7 @@ $("#archive").click(function() {
             var tableHead = $("#myHead");
             tableHead.html("<tr> \
                 <th data-field='state' data-checkbox='true'></th> \
-                <th data-field='date' data-filter-control='select' data-sortable='true'>Superviser</th> \
+                <th data-field='date' data-filter-control='select' data-sortable='true'>Superviser <br>" + archiveSupervisorCombo + "</th> \
                 <th data-field='date' data-filter-control='select' data-sortable='true'>Tarix</th> \
                 <th data-field='examen' data-filter-control='select' data-sortable='true'>Fenn</th> \
                 <th data-field='note' data-sortable='true'>Qiymet</th> \
@@ -67,9 +131,11 @@ $("#archive").click(function() {
     });
 });
 
+
 // a combo in exams section, for filtering exams by subject names
 var examsSubjectCombo =
     "<select style='text-align: center' name=\"examsSubjectCombo\" id=\"examsSubjectCombo\">\n"
+
 
 // ajax for filling examsSubjectCombo
 $.ajax({
@@ -83,6 +149,8 @@ $.ajax({
         examsSubjectCombo += ("</select>")
     }
 })
+
+
 // Onclick function for exams
 $("#exams").click(function() {
     $.ajax({
@@ -106,7 +174,11 @@ $("#exams").click(function() {
         }
     })
 });
+
+
 var exam_date = ""
+
+
 // OnChange function for exam date combo in Future exams
 $(document).on("change", "#examDate", function() {
     console.log("This is working")
@@ -139,6 +211,8 @@ $(document).on("change", "#examDate", function() {
     })
 
 });
+
+
 // OnChange function for subjects combo in Future exams
 $(document).on("change", "#examsSubjectCombo", function() {
     console.log("This is working")
@@ -171,11 +245,13 @@ $(document).on("change", "#examsSubjectCombo", function() {
 
 });
 
+
 // configuring <tr> for Subject names
 var subjectsOption =
     "<select style='text-align: center' name=\"subjectCombo\" id=\"subjectCombo\">\n"
 var teacherSelectOption =
     "<select style='text-align: center' name=\"teacherCombo\" id=\"teacherCombo\">\n"
+
 
 $.ajax({
     url: "/UltraJava_war/subjects-combo",
@@ -200,6 +276,7 @@ $.ajax({
 
     }
 })
+
 
 // an onClick function for "Subjects"
 $("#subjects").click(function() {
@@ -230,6 +307,7 @@ $("#subjects").click(function() {
         }
     })
 });
+
 
 var subject_id = 0;
 var teacher_id = 0;
@@ -265,6 +343,7 @@ $(document).on("change", "#subjectCombo", function() {
 
 });
 
+
 // OnChange function for subjects combo for teacher name
 $(document).on("change", "#teacherCombo", function() {
     console.log("This is working")
@@ -295,6 +374,8 @@ $(document).on("change", "#teacherCombo", function() {
     })
 
 });
+
+
 $(document).ready(function(){
     // console.log("Helo")
     $("#table").on("tr", "click", function() {
@@ -315,6 +396,7 @@ $("#finish").click(function(event){
         'z-index': '9999'
     })
 })
+
 
 $(document).on("click","#startExamButton",function(){
     console.log("Helo")

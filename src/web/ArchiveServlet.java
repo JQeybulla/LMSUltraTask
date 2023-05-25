@@ -64,7 +64,28 @@ public class ArchiveServlet extends HttpServlet {
         CallableStatement call = null;
         ResultSet rs = null;
 
-        String sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS() }";
+        String distinctAction = null;
+
+        if (request.getParameter("distinctAction") != null){
+            distinctAction = request.getParameter("distinctAction");
+        }
+
+        String sql = null;
+
+        int teacher_id = 0;
+        if (request.getParameter("teacher_id") != null){
+            teacher_id = Integer.parseInt(request.getParameter("teacher_id"));
+        }
+
+        System.out.println("teacher_id: "+ teacher_id);
+
+        if (distinctAction != null){
+            if (distinctAction.equals("supervisor")){
+                sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS_SUPERVISOR_COMBO() }";
+            }
+        }else{
+            sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS(?) }";
+        }
 
         try {
             if (conn != null){
@@ -72,6 +93,10 @@ public class ArchiveServlet extends HttpServlet {
 
                 // Registering the output parameter as REF_CURSOR
                 call.registerOutParameter(1, OracleTypes.CURSOR);
+
+                if (distinctAction == null){
+                    call.setInt(2, teacher_id);
+                }
 
                 // Executing the function call
                 call.execute();
