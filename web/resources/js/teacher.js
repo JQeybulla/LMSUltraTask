@@ -1,4 +1,8 @@
 //exporte les données sélectionnées
+
+
+var active = "groups";
+
 var $table = $('#table');
 
 
@@ -54,6 +58,7 @@ $.ajax({
 
 
 $("#groups").click(function() {
+    active = "groups";
     $.ajax({
         url: "/resources/data/groups.json",
         success: function(result){
@@ -66,12 +71,19 @@ $("#groups").click(function() {
             <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Fakulte"+"</th> \
             <th data-field='note' data-sortable='true'>"+"Telebe sayi"+"</th></tr>");
             var myBody = document.getElementById("myBody")
-            var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
             $.each(result, function(key, value){
 
                 $("#table").append(
-                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.id+"</td><td>"+value.name+"</td><td>"+value.faculty+"</td><td>"+value.students_count+"</td></tr>"
+                    "<tr>" +
+                        "<td class='bs-checkbox '>" +
+                            "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                        "</td>" +
+                        "<td>"+value.id+"</td>" +
+                        "<td>"+value.name+"</td>" +
+                        "<td>"+value.faculty+"</td>" +
+                        "<td>"+value.students_count+"</td>" +
+                    "</tr>"
                 )
                 // console.log(value.subject)
             })
@@ -83,6 +95,7 @@ $("#groups").click(function() {
 
 
 $("#examTeacher").click(function() {
+    active = "examsForTeacher";
     $.ajax({
         url: "/resources/data/exams.json",
         success: function(result){
@@ -210,21 +223,39 @@ $("#finishCreateExamBtn").click(function(){
 })
 
 
-$('#removeExam').on('click', function() {
+$('#removeItem').on('click', function() {
+    if (active === "groups") {
+        url = 'mlmkl';
+    } else if (active === "examsForTeacher") {
+        url = ";kml;,;l";
+    }
 
     var confirmed = confirm('Are you sure you want to perform this action?');
 
     if (confirmed) {
-        // perform some action here
-        $('table input[type="checkbox"]:checked').each(function() {
+        var checkbox = $('table').find('input[name="btSelectItem"]:checked');
 
-            // get the parent tr element of the checkbox
-            var tr = $(this).closest('tr');
+        if (checkbox.length > 0) {
+            var valueId = checkbox.closest('tr').find('td:eq(1)').text();
 
-            // delete the tr element
-            tr.remove();
-        });
+            $.ajax({
+                url: `/UltraJava_war/delete-group?group_id=${valueId}`,
+                dataType: 'json',
+                success: function(json) {
+                    data = json; // store the JSON data in the 'data' variable
+                    console.log('JSON data loaded successfully:', data);
+
+                    // Remove the row from the table
+                    checkbox.closest('tr').remove();
+                    console.log('Row deleted successfully.');
+                },
+                error: function(jqxhr, textStatus, error) {
+                    var errorMessage = textStatus + ', ' + error;
+                    console.error('Error loading JSON data:', errorMessage);
+                }
+            });
+        } else {
+            console.log('No checkbox selected.');
+        }
     }
-    // loop through all checked checkboxes in the table
-
 });
