@@ -62,10 +62,31 @@ public class DeleteGroupServlet extends HttpServlet {
 
         String sql = null;
 
-        int group_id = 0;
+        String group_id = "";
         if (request.getParameter("group_id") != null){
-            group_id = Integer.parseInt(request.getParameter("group_id"));
+            group_id = (request.getParameter("group_id"));
         }
+
+        // getting a string add numbers to list
+        // Remove trailing comma if present
+        if (group_id.endsWith(",")) {
+            group_id = group_id.substring(0, group_id.length() - 1);
+        }
+
+        String[] numberStrings = group_id.split(",");
+        List<Integer> groupIds = new ArrayList<>();
+
+        for (String numberString : numberStrings) {
+            try {
+                int number = Integer.parseInt(numberString);
+                groupIds.add(number);
+            } catch (NumberFormatException e) {
+                // Handle invalid number format
+                System.out.println("Invalid number format: " + numberString);
+            }
+        }
+
+
 
         System.out.println("group_id: "+ group_id);
 
@@ -79,15 +100,30 @@ public class DeleteGroupServlet extends HttpServlet {
                 // Registering the output parameter as REF_CURSOR
                 call.registerOutParameter(1, OracleTypes.INTEGER);
 
-                call.setInt(2, group_id);
+                List<Integer> resultList = new ArrayList<>();
+                for (int number : groupIds) {
+                    call.setInt(2, number);
 
-                // Executing the function call
-                call.execute();
+                    // Executing the function call
+                    call.execute();
 
-                int result = call.getInt(1);
-                System.out.println("RESULT: " + result);
+                    int result = call.getInt(1);
+                    System.out.println("RESULT: " + result);
+                    resultList.add(result);
+                }
+                boolean allSuccessfull = true;
+                for (int result:resultList){
+                    if (result == 0){
+                        allSuccessfull = false;
+                    }
+                }
+                String content = "";
+                if(allSuccessfull){
+                    content = "{\"result\":" + 1 + "}";
+                }else{
+                    content = "{\"result\":" + 0 + "}";
+                }
 
-                String content = "{\"result\":" + result + "}";
                 System.out.println(content);
                 // Set the content type of the response to JSON
                 response.setContentType("application/json");

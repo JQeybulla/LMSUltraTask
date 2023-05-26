@@ -234,12 +234,19 @@ $('#removeItem').on('click', function() {
 
     if (confirmed) {
         var checkbox = $('table').find('input[name="btSelectItem"]:checked');
-
+        console.log(checkbox)
         if (checkbox.length > 0) {
-            var valueId = checkbox.closest('tr').find('td:eq(1)').text();
+            var valueIds = "";
+
+            checkbox.each(function() {
+                var valueId = $(this).closest('tr').find('td:eq(1)').text();
+                valueIds += valueId + ",";
+            });
+
+            console.log(valueIds);
 
             $.ajax({
-                url: `/UltraJava_war/delete-group?group_id=${valueId}`,
+                url: `/UltraJava_war/delete-group?group_id=${valueIds}`,
                 dataType: 'json',
                 success: function(json) {
                     data = json; // store the JSON data in the 'data' variable
