@@ -61,29 +61,29 @@ $.ajax({
 $("#groups").click(function() {
     active = "groups";
     $.ajax({
-        url: "/resources/data/groups.json",
+        url: "/UltraJava_war/groups",
         success: function(result){
-            // console.log(result)
+            console.log(result)
             var myHead = document.getElementById("myHead")
             myHead.innerHTML = ("<tr> \
-            <th data-field='state' data-checkbox='true'></th> \
-            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"ID"+"</th> \
-            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Ad"+"</th> \
-            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Fakulte"+"</th> \
-            <th data-field='note' data-sortable='true'>"+"Telebe sayi"+"</th></tr>");
+        <th data-field='state' data-checkbox='true'></th> \
+        <th data-field='date' data-filter-control='select' data-sortable='true'>"+"ID"+"</th> \
+        <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Ad"+"</th> \
+        <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Fakulte"+"</th> \
+        <th data-field='note' data-sortable='true'>"+"Telebe sayi"+"</th></tr>");
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
-            $.each(result, function(key, value){
+            $.each(result.options, function(key, value){
 
                 $("#table").append(
                     "<tr>" +
-                        "<td class='bs-checkbox '>" +
-                            "<input data-index='0' name='btSelectItem' type='checkbox'>" +
-                        "</td>" +
-                        "<td>"+value.id+"</td>" +
-                        "<td>"+value.name+"</td>" +
-                        "<td>"+value.faculty+"</td>" +
-                        "<td>"+value.students_count+"</td>" +
+                    "<td class='bs-checkbox '>" +
+                    "<input data-index='0' name='btSelectItem' type='checkbox'>" +
+                    "</td>" +
+                    "<td>"+value.id+"</td>" +
+                    "<td>"+value.name+"</td>" +
+                    "<td>"+value.faculty_name+"</td>" +
+                    "<td>"+value.student_count+"</td>" +
                     "</tr>"
                 )
                 // console.log(value.subject)
@@ -358,4 +358,46 @@ $("#saveChanges").on("click", function() {
 
     // Close the modal
     $("#editModal").hide();
+});
+
+
+var examsSubjectCombo =
+    "<select style='text-align: center' name=\"examsSubjectCombo\" id=\"examsSubjectCombo\">\n"
+
+// ajax for filling examsSubjectCombo
+$.ajax({
+    url: "/UltraJava_war/future-exams-subject-combo",
+    success: function (result){
+        examsSubjectCombo += ("<option value=" + 0 + ">" + "-------------" + "</option>\n");
+        $.each(result.options, function (key, value){
+            console.log(value.name)
+            examsSubjectCombo += ("<option value=" + value.id + ">" + value.name + "</option>\n");
+        });
+        examsSubjectCombo += ("</select>")
+    }
+})
+
+
+// Onclick function for examsTeacher
+$("#examsTeacher").click(function() {
+    $.ajax({
+        url: "/UltraJava_war//exams-by-teacher",
+        success: function(result){
+            var myHead = document.getElementById("myHead")
+            myHead.innerHTML = ("<tr> \
+            <th data-field='state' data-checkbox='true'></th> \
+            <th data-field='date' data-filter-control='select' data-sortable='true'>"+"Fenn <br>"+examsSubjectCombo+"</th> \
+            <th data-field='examen' data-filter-control='select' data-sortable='true'>"+"Tarix <br>"+"<input type=\"date\" id=\"examDate\" name=\"examDate\">"+"</th> \
+            </tr>");
+            var myBody = document.getElementById("myBody")
+            myBody.innerHTML = ("");
+            $.each(result.options, function(key, value){
+
+                $("#table").append(
+                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.exam_date+"</td></tr>"
+                )
+                // console.log(value.subject)
+            })
+        }
+    })
 });

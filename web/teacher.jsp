@@ -59,7 +59,7 @@
             <div class="leftNav">
                 <ul>
                     <li id="groups">Qruplar</li>
-                    <li id="examTeacher">Imtahanlar</li>
+                    <li id="examsTeacher">Imtahanlar</li>
                     <li>Fennler</li>
                     <li>Ev tapsiriqlari</li>
                     <!-- <li>Shikayet formu</li> -->
