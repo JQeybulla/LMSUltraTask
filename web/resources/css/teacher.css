@@ -190,3 +190,33 @@ th, td{
     cursor: pointer;
     color: #5C6A9B;
 }
+
+/*Edit group modal */
+.modal-content{
+    height: auto;
+    padding-bottom: 16px;
+    width: 50%;
+    margin-left: 25%;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+}
+.modal-content span{
+    margin-left: 5px;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-left: 2.5%;
+}
+
+.modal-content form input{
+    margin-bottom: 20px;
+    height: 35px;
+}
+.modal-content form select{
+    margin-bottom: 50px;
+    height: 35px;
+}

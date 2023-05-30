@@ -57,6 +57,7 @@ $.ajax({
 })
 
 
+// Onclick for Groups section
 $("#groups").click(function() {
     active = "groups";
     $.ajax({
@@ -186,8 +187,8 @@ $("#finish").click(function(event){
 //     $("#Body").css({
 //         'content':'',
 //         'position': 'absolute',
-
-
+//
+//
 //         'left': '0',
 //         'width': '100%',
 //         'height': '100%',
@@ -214,15 +215,31 @@ $("#finishCreateExam").click(function(){
 })
 
 
-$("#finishCreateExamBtn").click(function(){
-    console.log("Finisn")
-    $("#table").append(
-        "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+"Yeni fenn"+"</td><td>"+"11.11.2024"+"</td><td>"+"2 saat"+"</td></tr>"
-    )
-    $("#addExamForm").hide();
+// add item for groups
+$("#addItem").click(function(){
+    console.log("Finisn");
+    $.ajax({
+        url: "/UltraJava_war/all-groups-combo",
+        success: function(result) {
+            var selectElement = $("#facultySelect");
+
+            // Clear existing options
+            selectElement.empty();
+
+            $.each(result.options, function(key, value) {
+                // Create a new option element
+                var option = $("<option></option>").attr("value", value.id).text(value.name);
+
+                // Append the option to the select element
+                selectElement.append(option);
+            });
+        }
+    });
+    $("#editModal").show();
 })
 
 
+// removing a group from the table (and database)
 $('#removeItem').on('click', function() {
     if (active === "groups") {
         url = 'mlmkl';
@@ -265,4 +282,80 @@ $('#removeItem').on('click', function() {
             console.log('No checkbox selected.');
         }
     }
+});
+
+
+// onclick of Edit button
+var groupIdtoChange = ""
+$("#edit").on("click", function() {
+    var checkedCheckbox = $("table").find('input[name="btSelectItem"]:checked');
+    if (checkedCheckbox.length > 0) {
+        var row = checkedCheckbox.closest("tr");
+        var id = row.find("td:eq(1)").text();
+        groupIdtoChange = id;
+        var name = row.find("td:eq(2)").text();
+        var faculty = row.find("td:eq(3)").text();
+
+        $("#nameInput").val(name);
+        $("#facultySelect").val(faculty);
+
+        $.ajax({
+            url: "/UltraJava_war/all-groups-combo",
+            success: function(result) {
+                var selectElement = $("#facultySelect");
+
+                // Clear existing options
+                selectElement.empty();
+
+                $.each(result.options, function(key, value) {
+                    // Create a new option element
+                    var option = $("<option></option>").attr("value", value.id).text(value.name);
+
+                    // Append the option to the select element
+                    selectElement.append(option);
+                });
+            }
+        });
+
+
+        // Open the modal
+        $("#editModal").show();
+    } else {
+        console.log("No checkbox selected.");
+    }
+});
+
+
+// Modal edit close button click event
+$(".close").on("click", function() {
+    $("#editModal").hide();
+});
+
+
+// Save button click event
+$("#saveChanges").on("click", function() {
+    console.log("This is wwwoooorrkkiingg")
+    console.log("Group id to change: " + groupIdtoChange)
+    var name = $("#nameInput").val();
+    var faculty = $("#facultySelect").val();
+    console.log(name)
+    console.log(faculty)
+
+    let urlToSend = "";
+    if (groupIdtoChange === ""){
+        urlToSend = `/UltraJava_war/add-group?name=${name}&faculty_id=${faculty}`
+    }else {
+        urlToSend = `/UltraJava_war/edit-group?id=${groupIdtoChange}&name=${name}&faculty_id=${faculty}`
+    }
+
+    // Perform save operation or send data to the server
+    $.ajax({
+        url: urlToSend,
+        success: function(result) {
+            console.log(result)
+        }
+    });
+
+    // Close the modal
+    $("#editModal").hide();
 });

@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student</title>
+    <title>Teacher</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -69,10 +69,10 @@
         <div class="col-8 p-0">
             <div class="operations">
                 <div class="icons">
-                    <div class="icon" id="finishCreateExam">
+                    <div class="icon" id="addItem">
                         <i class="fas fa-plus-circle"></i>
                     </div>
-                    <div class="icon">
+                    <div class="icon" id="edit">
                         <i class="fas fa-edit"></i>
                     </div>
                     <div class="icon" id="removeItem">
@@ -128,6 +128,26 @@
                         <tbody id="myBody">
                         </tbody>
                     </table>
+
+                    <!-- edit From -->
+                    <div id="editModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form>
+                                <label for="nameInput">Name of group</label>
+                                <input id="nameInput" type="text" placeholder="Name">
+
+                                <label for="facultySelect">Faculty</label>
+                                <select id="facultySelect">
+                                    <option value="faculty1">Faculty 1</option>
+                                    <option value="faculty2">Faculty 2</option>
+                                    <option value="faculty3">Faculty 3</option>
+                                </select>
+                                <button class="btn btn-primary" id="saveChanges">Save</button>
+                            </form>
+                        </div>
+                    </div>
+
                     <div class="addExam" id="addExam">
                         <button class="btn btn-primary" id="addExamButton">Imtahan elave et</button>
                     </div>
