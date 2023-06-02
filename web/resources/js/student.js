@@ -1,4 +1,5 @@
 //exporte les données sélectionnées
+
 var $table = $('#table');
 $(function () {
     $('#toolbar').find('select').change(function () {
@@ -165,9 +166,9 @@ $("#exams").click(function() {
             var myBody = document.getElementById("myBody")
             myBody.innerHTML = ("");
             $.each(result.options, function(key, value){
-
+                console.log(value.id)
                 $("#table").append(
-                    "<tr><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.exam_date+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
+                    "<tr id=\""+value.id + "\"><td class='bs-checkbox '><input data-index='0' name='btSelectItem' type='checkbox'></td><td>"+value.name+"</td><td>"+value.exam_date+"</td><td>"+"<button class='btn btn-primary' id='startExamButton'>Bashla</button>"+"</td></tr>"
                 )
                 // console.log(value.subject)
             })
@@ -383,8 +384,47 @@ $(document).ready(function(){
 })
 
 
+var examAnswers = ""
+var examId = ""
 $("#finish").click(function(event){
+
     event.preventDefault();
+    var checkedOption = $('input[name="answer"]:checked');
+    if (checkedOption.length > 0) {
+        var checkedOptionId = checkedOption.attr('id');
+        console.log("Answer: " + checkedOptionId);
+
+        var answer = checkedOptionId;
+        if (answer === "answer1"){
+            answer = "A";
+        }else if(answer === "answer2"){
+            answer = "B";
+        }else if(answer === "answer3"){
+            answer = "C";
+        }else if (answer === "answer4"){
+            answer = "D";
+        }
+
+
+        console.log("Answer: " + checkedOptionId);
+        console.log(answer + "----" + correctAnswer)
+        if (answer === correctAnswer){
+            examAnswers += "1,";
+        }else {
+            examAnswers += "0,";
+        }
+    } else {
+        console.log("No option selected");
+        examAnswers += "0,"
+    }
+    $.ajax({
+        url: `/UltraJava_war/calculate-score?answers=${examAnswers}&exam_id=${examId}`,
+        success: function(result){
+            console.log(result.options);
+        }
+    })
+
+
     $("#examForm").hide();
     $("#Body").css({
         'content':'',
@@ -395,23 +435,114 @@ $("#finish").click(function(event){
         'background-color': '#fff',
         'z-index': '9999'
     })
+    examAnswers = "";
 })
 
+var questionDetails; // to store the JSON datac
+var currentIndex = 0; // to keep track of the current question index
 
-$(document).on("click","#startExamButton",function(){
+var correctAnswer = ""
+$(document).on("click","#startExamButton",function(event){
+    $('#next').prop('disabled', false).css('background-color', '#4caf50').css('cursor', 'pointer');
     console.log("Helo")
-    $("#Body").css({
-        'content':'',
-        'position': 'absolute',
+    var trElementId = event.target.closest("tr").id;
+    examId = trElementId
+    $.ajax({
+        url: `/UltraJava_war/get-exam-questions?exam_id=${trElementId}`,
+        success: function(result){
+            console.log(result.options)
+            questionDetails = result.options;
+            console.log('JSON data loaded successfully:', questionDetails);
 
-        'left': '0',
-        'width': '100%',
-        'height': '100%',
-        'background-color': 'rgba(0, 0, 0, 0.5)',
-        'z-index': '9999'
+            $("#Body").css({
+                'content':'',
+                'position': 'absolute',
+
+                'left': '0',
+                'width': '100%',
+                'height': '100%',
+                'background-color': 'rgba(0, 0, 0, 0.5)',
+                'z-index': '9999'
+            })
+            $("#table").removeClass();
+            $("#table").addClass("table table-borderless");
+
+            var question = questionDetails[currentIndex]; // get the next question in order
+            $('#questionHeader').text(question.body); // update the text element with the new question
+            $('#answer1').prop('checked', false).next('label').text(question.variant_a);
+            $('#answer2').prop('checked', false).next('label').text(question.variant_b);
+            $('#answer3').prop('checked', false).next('label').text(question.variant_c);
+            $('#answer4').prop('checked', false).next('label').text(question.variant_d);
+            $('input[name=answer]:checked').prop('checked', false);
+            correctAnswer = question.correct_variant;
+            currentIndex++; // increment the current question index
+            $("#examForm").show();
+
+        },
+        error: function(jqxhr, textStatus, error) {
+            var errorMessage = textStatus + ', ' + error;
+            console.error('Error loading JSON data:', errorMessage);
+        }
     })
-    $("#table").removeClass();
-    $("#table").addClass("table table-borderless");
-    $("#examForm").show();
-})
+});
+
+$(document).ready(function() {
+    $('#next').click(function(event) {
+        event.preventDefault();
+        console.log(questionDetails)
+        var question = questionDetails[currentIndex]; // get the next question in order
+
+
+        var checkedOption = $('input[name="answer"]:checked');
+        if (checkedOption.length > 0) {
+            var checkedOptionId = checkedOption.attr('id');
+            console.log("Answer: " + checkedOptionId);
+            var answer = checkedOptionId;
+            if (answer === "answer1"){
+                answer = "A";
+            }else if(answer === "answer2"){
+                answer = "B";
+            }else if(answer === "answer3"){
+                answer = "C";
+            }else if (answer === "answer4"){
+                answer = "D";
+            }
+            console.log(answer + "----" + correctAnswer)
+            if (answer === correctAnswer){
+                examAnswers += "1,";
+            }else {
+                examAnswers += "0,";
+            }
+        } else {
+            console.log("No option selected");
+            examAnswers += "0,"
+        }
+
+        // console.log("Question: " + question)
+        // console.log(question.body)
+        // console.log(question.variant_a)
+        // console.log(question.variant_b)
+        // console.log(question.variant_c)
+        // console.log(question.variant_d)
+        $('#questionHeader').text(question.body); // update the text element with the new question
+        $('#answer1').prop('checked', false).next('label').text(question.variant_a);
+        $('#answer2').prop('checked', false).next('label').text(question.variant_b);
+        $('#answer3').prop('checked', false).next('label').text(question.variant_c);
+        $('#answer4').prop('checked', false).next('label').text(question.variant_d);
+        correctAnswer = question.correct_variant;
+
+
+
+        $('input[name=answer]:checked').prop('checked', false);
+        currentIndex++; // increment the current question index
+        console.log("Length: " + questionDetails.length)
+
+        if(currentIndex === questionDetails.length){
+            currentIndex = 0;
+            $('#next').prop('disabled', true).css('background-color', 'gray').css('cursor', 'default');
+        }
+        console.log("Current index: " + currentIndex);
+
+    });
+});
 

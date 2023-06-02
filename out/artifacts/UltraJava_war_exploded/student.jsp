@@ -82,7 +82,7 @@
           </div>
         </div>
       </div>
-      <div class="mainContent" id="mainContent">
+     ` <div class="mainContent" id="mainContent">
         <div class="overlay">
           <div class="examForm" id="examForm">
             <h2 id="questionHeader">What is the capital city of France?</h2>
@@ -109,7 +109,7 @@
               </div>
             </form>
           </div>
-        </div>
+        </div>`
         <div class="containerH">
           <div id="toolbar">
             <select class="form-control">

@@ -98,12 +98,23 @@
 
                             <label for="D">D varianti</label>
                             <input type="text" name="" id="D" class="answer">
+
+                            <div id="correctVariant">
+                                <h3>Correct Variant:</h3>
+                                <label><input type="radio" name="correctAnswer" value="1"> A</label>
+                                <label><input type="radio" name="correctAnswer" value="2"> B</label>
+                                <label><input type="radio" name="correctAnswer" value="3"> C</label>
+                                <label><input type="radio" name="correctAnswer" value="3"> D</label>
+                            </div>
                         </form>
                         <div class="buttons">
                             <button id="next" class="btn">Novbeti</button>
                             <button id="finishCreateExamBtn" class="btn">Yarat</button>
                         </div>
                     </div>
+
+
+
                 </div>
                 <div class="containerH">
                     <div id="toolbar">

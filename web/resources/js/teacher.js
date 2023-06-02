@@ -1,6 +1,5 @@
 //exporte les données sélectionnées
 
-
 var active = "groups";
 
 var $table = $('#table');
@@ -133,22 +132,8 @@ $(document).ready(function(){
 $(document).ready(function() {
     var data; // to store the JSON datacon
     // console.log(data)
-    var currentIndex = 0; // to keep track of the current question index
-
-    $.ajax({
-        url: '/resources/data/exam.json',
-        dataType: 'json',
-        success: function(json) {
-            data = json; // store the JSON data in the 'data' variable
-            console.log('JSON data loaded successfully:', data);
-        },
-        error: function(jqxhr, textStatus, error) {
-            var errorMessage = textStatus + ', ' + error;
-            console.error('Error loading JSON data:', errorMessage);
-        }
-    });
-
-    console.log(currentIndex)
+    // var currentIndex = 0; // to keep track of the current question index
+    // console.log(currentIndex)
     $('#next').click(function(event) {
         event.preventDefault();
         var question = data[currentIndex % Object.keys(data).length + 1]; // get the next question in order
@@ -217,25 +202,30 @@ $("#finishCreateExam").click(function(){
 
 // add item for groups
 $("#addItem").click(function(){
-    console.log("Finisn");
-    $.ajax({
-        url: "/UltraJava_war/all-groups-combo",
-        success: function(result) {
-            var selectElement = $("#facultySelect");
+    console.log("ACTIVE: " + active)
+    if(active === "groups"){
+        $.ajax({
+            url: "/UltraJava_war/all-groups-combo",
+            success: function(result) {
+                var selectElement = $("#facultySelect");
 
-            // Clear existing options
-            selectElement.empty();
+                // Clear existing options
+                selectElement.empty();
 
-            $.each(result.options, function(key, value) {
-                // Create a new option element
-                var option = $("<option></option>").attr("value", value.id).text(value.name);
+                $.each(result.options, function(key, value) {
+                    // Create a new option element
+                    var option = $("<option></option>").attr("value", value.id).text(value.name);
 
-                // Append the option to the select element
-                selectElement.append(option);
-            });
-        }
-    });
-    $("#editModal").show();
+                    // Append the option to the select element
+                    selectElement.append(option);
+                });
+            }
+        });
+        $("#editModal").show();
+    }else if (active === "exams"){
+        $("#addExamForm").show();
+    }
+
 })
 
 
@@ -380,6 +370,7 @@ $.ajax({
 
 // Onclick function for examsTeacher
 $("#examsTeacher").click(function() {
+    active = "exams";
     $.ajax({
         url: "/UltraJava_war//exams-by-teacher",
         success: function(result){

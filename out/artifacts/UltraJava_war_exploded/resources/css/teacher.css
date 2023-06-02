@@ -90,16 +90,38 @@
     width: 800px;
     position: absolute;
     background-color: #aab8eb;
-    top:40px;
+    top:20px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
     justify-content: space-around;
-    padding: 30px 0;
+    padding: 12px 0;
     /* align-items: center; */
     flex-direction: column;
     gap: 30px;
-    border-radius: 30px;
+    border-radius: 10px;
+}
+/*#correctVariant label {*/
+/*    display: block;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*#correctVariant input[type="radio"] {*/
+/*    margin-right: 5px;*/
+/*}*/
+#Body .mainContent .addExamForm #correctVariant{
+    display: flex;
+    align-items: center;
+}
+#Body .mainContent .addExamForm #correctVariant label{
+    margin-bottom: 0;
+}
+#Body .mainContent .addExamForm #correctVariant input{
+    margin: 0 0 0 10px;
+}
+#Body .mainContent .addExamForm #correctVariant h3{
+    font-size: 16px;
+    margin: 0;
 }
 #Body .mainContent .addExamForm .buttons{
     /* background-color: #5C6A9B; */
@@ -122,6 +144,7 @@
     border-radius: 5px;
     padding-left: 5px;
     /* border: none; */
+    margin-bottom: 12px;
 }
 #Body .mainContent .addExamForm form textarea.question{
     height: 80px;
@@ -130,6 +153,7 @@
     border: 1px solid gray;
     outline: none;
     padding-left: 5px;
+    margin-bottom: 12px;
 }
 #Body .mainContent .addExamForm form textarea.question:focus{
     outline: 2px solid #5C6A9B;

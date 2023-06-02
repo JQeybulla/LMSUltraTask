@@ -1,6 +1,5 @@
 //exporte les données sélectionnées
 
-
 var active = "groups";
 
 var $table = $('#table');
@@ -217,25 +216,30 @@ $("#finishCreateExam").click(function(){
 
 // add item for groups
 $("#addItem").click(function(){
-    console.log("Finisn");
-    $.ajax({
-        url: "/UltraJava_war/all-groups-combo",
-        success: function(result) {
-            var selectElement = $("#facultySelect");
+    console.log("ACTIVE: " + active)
+    if(active === "groups"){
+        $.ajax({
+            url: "/UltraJava_war/all-groups-combo",
+            success: function(result) {
+                var selectElement = $("#facultySelect");
 
-            // Clear existing options
-            selectElement.empty();
+                // Clear existing options
+                selectElement.empty();
 
-            $.each(result.options, function(key, value) {
-                // Create a new option element
-                var option = $("<option></option>").attr("value", value.id).text(value.name);
+                $.each(result.options, function(key, value) {
+                    // Create a new option element
+                    var option = $("<option></option>").attr("value", value.id).text(value.name);
 
-                // Append the option to the select element
-                selectElement.append(option);
-            });
-        }
-    });
-    $("#editModal").show();
+                    // Append the option to the select element
+                    selectElement.append(option);
+                });
+            }
+        });
+        $("#editModal").show();
+    }else if (active === "exams"){
+        $("#addExamForm").show();
+    }
+
 })
 
 
@@ -380,6 +384,7 @@ $.ajax({
 
 // Onclick function for examsTeacher
 $("#examsTeacher").click(function() {
+    active = "exams";
     $.ajax({
         url: "/UltraJava_war//exams-by-teacher",
         success: function(result){

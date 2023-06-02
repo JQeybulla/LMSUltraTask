@@ -77,6 +77,9 @@ public class ArchiveServlet extends HttpServlet {
             teacher_id = Integer.parseInt(request.getParameter("teacher_id"));
         }
 
+        UsersInfo user = (UsersInfo) request.getSession().getAttribute(Constant.USER);
+        long user_id = user.getId();
+
         System.out.println("teacher_id: "+ teacher_id);
 
         if (distinctAction != null){
@@ -84,7 +87,7 @@ public class ArchiveServlet extends HttpServlet {
                 sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS_SUPERVISOR_COMBO() }";
             }
         }else{
-            sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS(?) }";
+            sql = "{ ? = call MYPROJECT.ARCIVE_EXAMS(?,?) }";
         }
 
         try {
@@ -96,7 +99,9 @@ public class ArchiveServlet extends HttpServlet {
 
                 if (distinctAction == null){
                     call.setInt(2, teacher_id);
+                    call.setLong(3, user_id);
                 }
+
 
                 // Executing the function call
                 call.execute();
